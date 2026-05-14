@@ -29,7 +29,7 @@ public class OutboxScheduler {
 
         for (NotificationOutbox message : messages) {
             try {
-                kafkaTemplate.send(message.getTopic(), message.getKey(), message.getValue());
+                kafkaTemplate.send(message.getTopic(), message.getKey(), message.getValue()).get();
                 message.setSent(true);
                 outboxRepository.save(message);
             } catch (Exception e) {

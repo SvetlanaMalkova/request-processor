@@ -18,6 +18,10 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
+logging:
+  level:
+    org.flywaydb: DEBUG
+
 outbox:
   batch-size: 50
   delay-ms: 1000

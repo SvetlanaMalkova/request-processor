@@ -1,4 +1,4 @@
-CREATE TABLE notification_outbox
+CREATE TABLE IF NOT EXISTS notification_outbox
 (
     id         UUID PRIMARY KEY NOT NULL,
     created_at TIMESTAMP        NOT NULL DEFAULT now(),
