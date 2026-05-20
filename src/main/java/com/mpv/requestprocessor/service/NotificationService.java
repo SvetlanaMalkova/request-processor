@@ -6,31 +6,30 @@ import com.mpv.requestprocessor.strategy.NotificationStrategy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class NotificationService {
 
-    private final Map<String, NotificationStrategy> strategies;
+    private final Map<NotificationType, NotificationStrategy> strategies;
 
+    public NotificationService(List<NotificationStrategy> strategyList) {
+        this.strategies = strategyList.stream()
+                .collect(Collectors.toMap(
+                        NotificationStrategy::getType,
+                        Function.identity()
+                ));
+    }
     public void process (NotificationRequest request) {
-        String strateqyName = resolveStrategyName(request.getType());
-        NotificationStrategy strategy = strategies.get(strateqyName);
+        NotificationStrategy strategy = strategies.get(request.getType());
 
         if (strategy == null) {
             throw new IllegalArgumentException("Неизвестный тип уведомления: " + request.getType());
         }
 
         strategy.process (request.getMessage());
-    }
-
-    private String resolveStrategyName(NotificationType type){
-        return switch (type){
-            case SMS -> "smsNotificationStrategy";
-            case EMAIL -> "emailNotificationStrategy";
-            case PUSH -> "pushNotificationStrategy";
-            case TG_MESSAGE -> "telegramNotificationStrategy";
-        };
     }
 }

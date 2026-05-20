@@ -1,6 +1,7 @@
 package com.mpv.requestprocessor.strategy;
 
 import com.mpv.requestprocessor.entity.NotificationOutbox;
+import com.mpv.requestprocessor.enums.NotificationType;
 import com.mpv.requestprocessor.repository.NotificationOutboxRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,11 @@ public class TelegramNotificationStrategy implements NotificationStrategy{
 
     private static final String TOPIC = "telegram-events";
     private final NotificationOutboxRepository outboxRepository;
+
+    @Override
+    public NotificationType getType() {
+        return NotificationType.TG_MESSAGE;
+    }
 
     @Override
     @Transactional
