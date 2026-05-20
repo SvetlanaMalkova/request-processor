@@ -1,6 +1,7 @@
 package com.mpv.requestprocessor.strategy;
 
 import com.mpv.requestprocessor.entity.NotificationOutbox;
+import com.mpv.requestprocessor.enums.NotificationType;
 import com.mpv.requestprocessor.repository.NotificationOutboxRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,11 @@ import java.util.UUID;
 public class SmsNotificationStrategy implements NotificationStrategy {
     private static final String TOPIC = "sms-events";
     private final NotificationOutboxRepository outboxRepository;
+
+    @Override
+    public NotificationType getType() {
+        return NotificationType.SMS;
+    }
 
     @Override
     @Transactional
